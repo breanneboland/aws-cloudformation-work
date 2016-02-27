@@ -1,0 +1,32 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": {},
+  "Description": "Empty VPC.",
+  "Mappings": {},
+  "Metadata": {},
+  "Outputs": {
+    "VPCId": {
+      "Description": "The VPCId for this stack.",
+      "Value": {
+        "Ref": "DevVPC"
+      }
+    }
+  },
+  "Resources": {
+    "DevVPC": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "dedicated",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "DevVPC"
+          }
+        ]
+      },
+      "Type": "AWS::EC2::VPC"
+    }
+  }
+}

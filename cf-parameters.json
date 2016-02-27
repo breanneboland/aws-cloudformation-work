@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "Subnets",
+    "ParameterValue": "subnet-68f2f51f"
+  }, 
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-1d445d78"
+  },
+  {
+  	"ParameterKey": "AZs",
+  	"ParameterValue": "us-west-2a"
+  },
+  {
+  	"ParameterKey": "KeyName",
+  	"ParameterValue": "breanne-10-feb"
+  }
+]

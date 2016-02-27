@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "Subnets",
+    "ParameterValue": "subnet-68f2f51f"
+  }, 
+  {
+  	"ParameterKey": "AZs",
+  	"ParameterValue": "us-west-2a"
+  },
+  {
+  	"ParameterKey": "KeyName",
+  	"ParameterValue": "breanne-10-feb"
+  }
+]

@@ -1,0 +1,88 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Conditions": {},
+  "Description": "VPC, two SGs, one instance, one ELB.",
+  "Mappings": {},
+  "Metadata": {},
+  "Outputs": {
+    "VPCId": {
+      "Description": "The VPCId for this stack.",
+      "Value": {
+        "Ref": "DevVPC"
+      }
+    }
+  },
+  "Resources": {
+    "DevVPC": {
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "dedicated",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "DevVPC"
+          }
+        ]
+      },
+      "Type": "AWS::EC2::VPC"
+    },
+    "DevSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable SSH access",
+        "SecurityGroupIngress": {
+          "IpProtocol": "TCP",
+          "FromPort": 22,
+          "ToPort": 22,
+          "CidrIp": "0.0.0.0/0"
+        }
+      }
+    },
+    "Port80SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Enable HTTP access",
+        "SecurityGroupIngress": {
+          "IpProtocol": "TCP",
+          "FromPort": 80,
+          "ToPort": 80,
+          "CidrIp": "0.0.0.0/0"
+        }
+      }
+    },
+    "DevInstance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "SecurityGroups": [
+          {
+            "Ref": "DevSecurityGroup"
+          },
+          {
+            "Ref": "Port80SecurityGroup"
+          }
+        ],
+        "KeyName": "breanne-10-feb",
+        "ImageId": "ami-196f8d79"
+      }
+    },
+    "AndAnELB": {
+      "Type": "AWS::ElasticLoadBalancing::LoadBalancer",
+      "Properties": {
+        "AvailabilityZones" : [{ "Fn::GetAtt" : ["DevInstance", "AvailabilityZone"]}],
+        "Instances": [
+          {
+            "Ref": "DevInstance"
+          }
+        ],
+        "LoadBalancerName": "Chester",
+        "Listeners": [{
+          "LoadBalancerPort": "80",
+          "InstancePort": "80",
+          "Protocol": "HTTP"
+        }]
+      }
+    }
+  }
+}
